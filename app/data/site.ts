@@ -10,7 +10,11 @@ export const siteConfig = {
   description:
     'Rayakan momen spesial dengan undangan digital yang elegan, personal, dan mudah dibagikan.',
   url: 'https://katha-undangan.vercel.app',
-  whatsapp: '6281234567890',
+  whatsapp: '6282179410376',
+  whatsappDisplay: '+62 821-7941-0376',
   instagram: 'https://instagram.com/katha.undangan',
+  instagramHandle: '@katha.undangan',
   email: 'halo@katha-undangan.id',
+  address: 'Yogyakarta, Indonesia',
+  hours: 'Senin–Sabtu · 09.00–17.00 WIB',
 } as const
