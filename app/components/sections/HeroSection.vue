@@ -1,5 +1,5 @@
 <template>
-  <section id="atas" aria-labelledby="hero-heading" class="relative overflow-hidden bg-cream">
+  <section id="atas" aria-labelledby="hero-heading" class="relative flex min-h-screen items-center overflow-hidden bg-cream">
     <!-- Blob warna lembut -->
     <div class="pointer-events-none absolute inset-0" aria-hidden="true">
       <div class="absolute -left-24 -top-24 h-96 w-96 rounded-full bg-brand/15 blur-3xl" />
@@ -7,7 +7,7 @@
       <div class="absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-leaf/15 blur-3xl" />
     </div>
 
-    <div class="relative mx-auto max-w-7xl px-5 pb-16 pt-28 text-center sm:px-8 sm:pt-32 lg:pb-24 lg:pt-40">
+    <div class="relative mx-auto w-full max-w-7xl px-5 py-28 text-center sm:px-8">
       <div class="mx-auto max-w-3xl">
         <p
           v-reveal

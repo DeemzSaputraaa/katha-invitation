@@ -25,23 +25,8 @@ export const faqs: FaqItem[] = [
       'Tentu. Anda dapat mengirimkan foto prewedding atau foto favorit Anda. Tim kami akan menyesuaikan komposisi dan cropping agar terlihat proporsional di semua ukuran layar.',
   },
   {
-    question: 'Apakah bisa request desain atau warna lain?',
-    answer:
-      'Bisa pada paket Premium (kustomisasi warna & font) dan paket Custom (desain khusus). Ceritakan konsep acara Anda melalui WhatsApp, kami akan bantu memilihkan arah visual yang paling pas.',
-  },
-  {
     question: 'Bagaimana cara membagikan undangan?',
     answer:
       'Anda akan menerima satu tautan personal (misalnya katha-undangan.id/nama-kamu). Tautan ini bisa dibagikan melalui WhatsApp, Instagram, atau dicetak sebagai QR code pada undangan fisik.',
-  },
-  {
-    question: 'Apakah bisa terhubung ke Google Maps?',
-    answer:
-      'Ya. Setiap undangan dilengkapi tombol lokasi yang membuka Google Maps, sehingga tamu bisa langsung mendapatkan rute menuju venue acara.',
-  },
-  {
-    question: 'Apakah tersedia RSVP dan buku tamu?',
-    answer:
-      'Ya, semua paket sudah termasuk RSVP konfirmasi kehadiran dan kolom ucapan. Data RSVP masuk dan dapat Anda pantau untuk memperkirakan jumlah tamu.',
   },
 ]
