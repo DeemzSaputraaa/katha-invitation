@@ -20,14 +20,14 @@
     <!-- Content -->
     <div class="relative z-10 flex flex-col items-center gap-5 pt-10 pb-4">
       <!-- "Made With Love by : Katha" -->
-      <p class="text-sm font-medium" :style="{ color: textColor }">
+      <p class="text-sm font-medium" :style="{ color: resolvedTextColor }">
         Made With Love by :
         <a
           href="https://katha.web.id"
           target="_blank"
           rel="noopener noreferrer"
           class="font-bold transition-opacity hover:opacity-75"
-          :style="{ color: accentColor }"
+          :style="{ color: resolvedAccentColor }"
           aria-label="Katha undangan digital — kunjungi katha.web.id"
         >
           Katha
@@ -59,7 +59,7 @@
       <!-- "PESAN UNDANGAN DIGITAL" label -->
       <p
         class="text-[11px] font-bold uppercase tracking-[0.3em]"
-        :style="{ color: labelColor }"
+        :style="{ color: resolvedLabelColor }"
       >
         Pesan Undangan Digital
       </p>
@@ -92,6 +92,11 @@ interface Props {
   waIconColor?: string
   /** Warna latar tombol WhatsApp */
   waBgColor?: string
+  /**
+   * Nama template yang sedang dilihat (mis. "Aurelia").
+   * Jika diisi, tombol WA memakai pesan templateInterest otomatis.
+   */
+  templateName?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -101,6 +106,7 @@ const props = withDefaults(defineProps<Props>(), {
   labelColor: undefined,
   waIconColor: '#E5F0FA',
   waBgColor: 'rgba(255,255,255,0.14)',
+  templateName: undefined,
 })
 
 const resolvedLabelColor = computed(() => props.labelColor ?? props.textColor)
@@ -124,10 +130,13 @@ const waBtnStyle = computed(() => ({
   border: `1.5px solid ${props.waIconColor}33`,
 }))
 
-const { general } = useWhatsApp()
-const waLink = general('Halo Katha, saya ingin memesan undangan digital.')
+const { general, templateInterest } = useWhatsApp()
+const waLink = computed(() =>
+  props.templateName
+    ? templateInterest(props.templateName)
+    : general('Halo Katha, saya ingin memesan undangan digital.'),
+)
 
-const textColor = computed(() => props.textColor)
-const accentColor = computed(() => props.accentColor)
-const labelColor = computed(() => resolvedLabelColor.value)
+const resolvedTextColor = computed(() => props.textColor)
+const resolvedAccentColor = computed(() => props.accentColor)
 </script>

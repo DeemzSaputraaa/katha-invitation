@@ -30,14 +30,15 @@
         {{ template.description }}
       </p>
       <div class="mt-5 flex gap-2.5 pt-1">
-        <button
-          type="button"
+        <NuxtLink
+          :to="`/templates/${template.slug}`"
+          target="_blank"
+          rel="noopener"
           class="inline-flex flex-1 items-center justify-center rounded-full border border-brand/30 px-4 py-2.5 text-sm font-bold text-brand-ink transition hover:border-brand hover:bg-brand-soft/50"
           :aria-label="`Preview template ${template.name}`"
-          @click="emit('preview')"
         >
           Preview
-        </button>
+        </NuxtLink>
         <a
           :href="waLink"
           target="_blank"
@@ -58,10 +59,6 @@ import { useWhatsApp } from '~/composables/useWhatsApp'
 
 const props = defineProps<{
   template: CatalogTemplate
-}>()
-
-const emit = defineEmits<{
-  preview: []
 }>()
 
 const { templateInterest } = useWhatsApp()

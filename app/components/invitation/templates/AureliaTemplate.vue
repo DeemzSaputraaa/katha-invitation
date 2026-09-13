@@ -19,26 +19,35 @@
     #1A6FB8  Deep Blue       → teks utama (dark mode)
   -->
   <div class="bg-[#E5F0FA] text-[#1A4F7A]">
+    <!-- Opening gate: root transparan agar konten kanan di bawah terlihat
+      saat panel kanan slide ke atas. Panel kiri diam (isinya sama persis
+      dengan aside kiri isi undangan). -->
     <InvitationOpening
       v-if="!opened"
       :data="data"
       :visual="data.coverImage"
       visual-alt="Foto pasangan mempelai"
       accent="#A2D2FF"
-      backdrop-class="bg-[#E5F0FA]"
+      backdrop-class="bg-transparent"
       left-class="bg-[#D1E8FC] text-[#1A4F7A]"
       overlay-class="bg-[#1A4F7A]/60"
       names-class="font-serif text-5xl font-medium italic leading-[1.05]"
       button-class="bg-[#E5F0FA] text-[#1A4F7A] hover:bg-white"
+      :leaving="closing"
       @open="handleOpen"
     >
       <template #left>
-        <p class="text-xs font-semibold uppercase tracking-[0.35em] text-[#8FC9FF]">Nº 01 — Elegant</p>
-        <p class="mt-6 font-serif text-7xl font-medium italic leading-none">Aurelia</p>
-        <div class="mt-8 h-px w-24 bg-[#A2D2FF]" aria-hidden="true" />
-        <p class="mt-8 max-w-sm font-serif text-2xl italic leading-snug opacity-80">
-          "An intimate celebration of love, draped in soft blue and white."
-        </p>
+        <!-- Sama persis dengan aside kiri isi undangan -->
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.35em] text-[#8FC9FF]">{{ data.invitationLabel }}</p>
+          <p class="mt-6 font-serif text-7xl font-medium italic leading-[1.05]">
+            <span class="block">{{ data.couple.person1.name }}</span>
+            <span class="my-2 block text-[0.5em] opacity-70">&amp;</span>
+            <span class="block">{{ data.couple.person2.name }}</span>
+          </p>
+          <div class="mt-8 h-px w-24 bg-[#A2D2FF]" aria-hidden="true" />
+          <p class="mt-8 font-serif text-2xl italic leading-snug opacity-80">{{ data.dateLabel }}</p>
+        </div>
       </template>
     </InvitationOpening>
 
@@ -52,7 +61,7 @@
     <div class="landscape:flex landscape:items-stretch">
       <!-- KIRI — statis, teks wedding mempelai pria & wanita -->
       <aside
-        class="hidden bg-[#D1E8FC] text-[#1A4F7A] landscape:sticky landscape:top-14 landscape:flex landscape:h-[calc(100svh-3.5rem)] landscape:flex-1 landscape:items-center landscape:self-start landscape:overflow-hidden landscape:px-14"
+        class="hidden bg-[#D1E8FC] text-[#1A4F7A] landscape:sticky landscape:top-0 landscape:flex landscape:h-[100svh] landscape:flex-1 landscape:items-center landscape:self-start landscape:overflow-hidden landscape:px-14"
         aria-label="Teks wedding mempelai"
       >
         <div>
@@ -73,7 +82,7 @@
           <!-- Hero: slideshow berdua2-5 -->
           <InvitationHero
             :data="data"
-            title-class="font-serif text-5xl font-medium italic leading-[1.05] sm:text-6xl"
+            title-class="font-serif text-5xl font-medium italic leading-[1.05] text-white sm:text-6xl"
             eyebrow-class="text-xs font-semibold uppercase tracking-[0.3em] text-[#8FC9FF]"
           />
           <InvitationGreeting :data="data" accent="#A2D2FF" />
@@ -136,10 +145,20 @@
             label-color="rgba(162,210,255,0.85)"
             wa-icon-color="#E5F0FA"
             wa-bg-color="rgba(255,255,255,0.12)"
+            :template-name="templateName"
           />
         </article>
       </div>
     </div>
+
+    <!-- Musik latar: dirender sejak awal (di balik opening), autoplay saat dibuka -->
+    <InvitationMusic
+      v-if="data.musicUrl"
+      ref="musicRef"
+      :src="data.musicUrl"
+      bg-color="#1A4F7A"
+      icon-color="#E5F0FA"
+    />
   </div>
 </template>
 
@@ -160,26 +179,42 @@ import InvitationRSVP from '../sections/InvitationRSVP.vue'
 import InvitationWishes from '../sections/InvitationWishes.vue'
 import InvitationClosing from '../sections/InvitationClosing.vue'
 import InvitationFooter from '../sections/InvitationFooter.vue'
+import InvitationMusic from '../sections/InvitationMusic.vue'
 
-defineProps<{ data: InvitationData }>()
+withDefaults(defineProps<{ data: InvitationData; templateName?: string }>(), {
+  templateName: 'Aurelia',
+})
 
 const opened = ref(false)
+const closing = ref(false)
+const musicRef = ref<InstanceType<typeof InvitationMusic> | null>(null)
 
 function handleOpen() {
-  opened.value = true
+  if (closing.value || opened.value) return
+  // Klik = user gesture → browser mengizinkan audio.play().
+  musicRef.value?.play()
+  // Nyalakan animasi slide panel kanan, unmount setelah selesai.
+  closing.value = true
+  if (import.meta.client) {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.scrollTo({ top: 0 })
+    setTimeout(() => {
+      opened.value = true
+    }, reduce ? 0 : 900)
+  }
+  else {
+    opened.value = true
+  }
 }
 
 // Kunci scroll body selama opening tampil (agar background tidak ikut
-// scroll di mobile), kembalikan + reset ke atas saat undangan dibuka.
+// scroll di mobile), kembalikan setelah opening ter-unmount.
 if (import.meta.client) {
   onMounted(() => {
     if (!opened.value) document.body.style.overflow = 'hidden'
   })
   watch(opened, (v) => {
-    if (v) {
-      document.body.style.overflow = ''
-      window.scrollTo({ top: 0 })
-    }
+    if (v) document.body.style.overflow = ''
   })
   onUnmounted(() => {
     document.body.style.overflow = ''

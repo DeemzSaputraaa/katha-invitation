@@ -41,6 +41,8 @@ export const invitationData: Record<string, InvitationData> = {
     ],
     /** Closing: foto berdua6 */
     closingImage: '/images/gallery/berdua6.jpg',
+    /** Musik latar: Dvořák Romantic Pieces I (biola & piano, CC0 via Internet Archive) */
+    musicUrl: '/audio/romantic-pieces-1.mp3',
     venue: {
       name: 'The Majestic Ballroom',
       address: 'Jl. Sudirman Kav. 52-53, Jakarta Selatan',

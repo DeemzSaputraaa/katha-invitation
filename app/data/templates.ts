@@ -52,7 +52,7 @@ export const templates: CatalogTemplate[] = [
     'Aurelia',
     'Elegant',
     99000,
-    'Editorial mewah dengan serif anggun di atas ivory. Untuk pernikahan gedung yang sophisticated.',
+    'Editorial mewah dengan serif italic anggun di atas soft blue. Untuk pernikahan gedung yang sophisticated.',
   ),
 ]
 

@@ -1,8 +1,9 @@
 <template>
   <!--
     Opening gate — SPLIT SCREEN.
-    Landscape (>= orientation landscape): left editorial 68% + right cover 32%.
-    Portrait/mobile: left disembunyikan, right panel penuh (100vw × 100svh).
+    Ukuran split SAMA PERSIS dengan isi undangan:
+    Landscape: kiri flex-1 + kanan 430px.
+    Portrait/mobile: kiri disembunyikan, kanan penuh (100vw × 100svh).
   -->
   <div
     class="fixed inset-0 z-[80] overflow-y-auto"
@@ -12,16 +13,20 @@
     aria-label="Opening undangan"
   >
     <div class="flex min-h-[100svh] flex-col landscape:flex-row">
-      <!-- LEFT PANEL — landscape only -->
+      <!-- LEFT PANEL — landscape only, ukuran sama dengan aside isi -->
       <div
-        class="hidden landscape:flex landscape:w-[68%] landscape:flex-col landscape:justify-center landscape:overflow-hidden landscape:px-14"
+        class="hidden landscape:flex landscape:flex-1 landscape:flex-col landscape:justify-center landscape:overflow-hidden landscape:px-14"
         :class="leftClass"
       >
         <slot name="left" />
       </div>
 
-      <!-- RIGHT PANEL — selalu tampil, cover sesungguhnya -->
-      <div class="relative flex min-h-[100svh] w-full flex-col overflow-hidden landscape:w-[32%]">
+      <!-- RIGHT PANEL — selalu tampil, cover sesungguhnya.
+        Hanya panel ini yang slide ke atas saat dibuka (kiri diam). -->
+      <div
+        class="relative flex min-h-[100svh] w-full flex-col overflow-hidden transition-transform duration-[900ms] ease-[cubic-bezier(0.76,0,0.24,1)] will-change-transform motion-reduce:transition-none landscape:w-[430px] landscape:shrink-0"
+        :class="leaving ? '-translate-y-full' : 'translate-y-0'"
+      >
         <img
           :src="visual"
           :alt="visualAlt"
@@ -86,6 +91,8 @@ withDefaults(
     dateClass?: string
     buttonClass?: string
     divider?: boolean
+    /** True saat animasi buka berjalan — hanya panel kanan yang slide ke atas. */
+    leaving?: boolean
   }>(),
   {
     visualAlt: 'Foto pasangan mempelai',
@@ -99,6 +106,7 @@ withDefaults(
     dateClass: 'text-sm tracking-[0.2em] uppercase opacity-90',
     buttonClass: 'bg-white text-stone-950 hover:bg-stone-100',
     divider: true,
+    leaving: false,
   },
 )
 

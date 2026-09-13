@@ -64,6 +64,8 @@ export interface InvitationData {
   heroSlides?: GalleryItem[]
   /** Foto closing/penutup (opsional). */
   closingImage?: string
+  /** URL musik latar undangan (opsional, diputar loop setelah dibuka). */
+  musicUrl?: string
   /** Label tanggal tampil, mis. "Sabtu, 24 Oktober 2026" */
   dateLabel: string
   shortDateLabel: string

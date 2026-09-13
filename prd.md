@@ -290,14 +290,10 @@ Rp99.000
 
 Template harus memiliki visual preview yang besar.
 
-Tombol "Preview" membuka lightbox (gambar besar, nama, harga, tombol Pesan).
-Di dalam lightbox ada tombol "Lihat Demo" menuju `/templates/[slug]`.
+Tombol "Preview" langsung menuju demo full undangan di `/templates/[slug]`
+tanpa lightbox/popup perantara.
 
-Flow: Katalog → Preview (lightbox) → Lihat Demo → Full Invitation → Pesan → WhatsApp.
-
-Tombol "Preview" membuka lightbox berisi gambar template ukuran besar,
-nama, harga, dan tombol Pesan. Lightbox dapat ditutup via tombol ×,
-klik backdrop, atau tombol ESC, dan mengunci scroll halaman saat terbuka.
+Flow: Katalog → Preview (= Lihat Demo) → Full Invitation → Pesan → WhatsApp.
 
 ---
 
@@ -340,6 +336,9 @@ Cara menambah template:
 
 Dynamic route `/templates/[slug]` (contoh: `/templates/aurelia`).
 Slug tidak dikenal → 404 proper, tanpa crash.
+Halaman demo adalah fullscreen tanpa navbar & footer landing
+(disembunyikan via `isTemplateRoute` di `layouts/default.vue`);
+tombol Preview di katalog membuka demo di tab baru (`target="_blank"`).
 
 ## Architecture (wajib dipertahankan)
 
@@ -369,10 +368,10 @@ salin) + alamat kirim hadiah fisik.
 
 ## Opening split-screen (wajib)
 
-Opening adalah gate fullscreen (`min-h-[100svh]`) dengan dua panel:
+Opening adalah gate fullscreen (`min-h-[100svh]`) dengan dua panel.
+Ukuran split opening SAMA PERSIS dengan split isi undangan:
 
-- Landscape/desktop: panel kiri editorial 68% + panel kanan cover 32%.
-  Proporsi bukan 50:50 — kanan lebih sempit sebagai visual utama.
+- Landscape/desktop: panel kiri `flex-1` + panel kanan `430px` (`shrink-0`).
 - Portrait/mobile: panel kiri `display:none`, panel kanan penuh
   (`100vw × 100svh`). JANGAN menumpuk kiri-di-atas-kanan.
 
@@ -384,7 +383,7 @@ tablet portrait ikut aturan portrait.
 Setelah "Buka Undangan" diklik, konten Hero sampai Closing memakai
 layout split 2 kolom di landscape (lihat `AureliaTemplate.vue`):
 
-- KIRI (`aside`, `landscape:sticky top-14 h-[calc(100svh-3.5rem)] flex-1`):
+- KIRI (`aside`, `landscape:sticky top-0 h-[100svh] flex-1`):
   statis/diam, hanya teks editorial — label undangan, nama mempelai besar
   serif italic, divider aksen, tanggal. Background warna panel template
   (Aurelia: `#D1E8FC`).
@@ -428,7 +427,14 @@ tampil setelah opening: label, nama pasangan, tanggal, visual berbingkai.
 ## Aturan khusus halaman undangan
 
 - Lenis DIMATIKAN di route `/templates/*` — undangan memakai native scroll.
-- Tanpa musik (jangan fake functionality).
+- Musik latar via `InvitationMusic.vue` (`data.musicUrl`, loop): autoplay
+  dipicu klik "Buka Undangan" (user gesture agar lolos aturan browser),
+  tombol melayang play/pause fixed kanan-bawah (z-60, di balik opening
+  z-80 sampai undangan dibuka). File default
+  `public/audio/romantic-pieces-1.mp3` — Dvořák Romantic Pieces I
+  (biola & piano, CC0 via Internet Archive,
+  `archive.org/details/Dvorak_RegentHall_1-3-2013`); ganti file + field
+  `musicUrl` untuk customer lain.
 - Tanpa iframe Google Maps — tombol link saja (performance).
 - Galeri memakai placeholder SVG sepalet (`public/images/gallery/`).
 - Copy nomor rekening harus benar-benar bekerja (clipboard + fallback).

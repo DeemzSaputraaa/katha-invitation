@@ -45,7 +45,6 @@
           :key="t.id"
           v-reveal="(i % 3) * 80"
           :template="t"
-          @preview="openPreview(t)"
         />
       </div>
 
@@ -68,71 +67,12 @@
         </a>
       </div>
 
-      <!-- Lightbox preview -->
-      <Teleport to="body">
-        <div
-          v-if="previewing"
-          class="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-8"
-          role="dialog"
-          aria-modal="true"
-          :aria-label="`Preview template ${previewing.name}`"
-        >
-          <div class="absolute inset-0 bg-stone-950/80" aria-hidden="true" @click="closePreview" />
-          <figure
-            class="relative max-h-[88vh] w-full max-w-sm overflow-hidden rounded-2xl bg-white shadow-2xl"
-          >
-            <button
-              ref="closeBtn"
-              type="button"
-              aria-label="Tutup preview"
-              class="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-2xl leading-none text-stone-700 shadow-md transition hover:text-stone-950"
-              @click="closePreview"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-            <img
-              :src="previewing.previewImage"
-              :alt="`Preview template undangan ${previewing.name}`"
-              width="600"
-              height="780"
-              class="max-h-[68vh] w-full object-cover object-top"
-            >
-            <figcaption class="p-4">
-              <div class="flex items-center justify-between gap-3">
-                <div>
-                  <p class="font-serif text-xl font-semibold text-stone-950">
-                    {{ previewing.name }}
-                  </p>
-                  <p class="text-sm font-bold text-brand-deep">
-                    {{ formatPrice(previewing.price) }}
-                  </p>
-                </div>
-                <NuxtLink
-                  :to="`/templates/${previewing.slug}`"
-                  class="inline-flex items-center justify-center rounded-full border border-brand/30 px-5 py-2.5 text-sm font-bold text-brand-ink transition hover:border-brand hover:bg-brand-soft/50"
-                  @click="closePreview"
-                >
-                  Lihat Demo
-                </NuxtLink>
-              </div>
-              <a
-                :href="previewWa"
-                target="_blank"
-                rel="noopener"
-                class="mt-3 inline-flex w-full items-center justify-center rounded-full bg-brand px-5 py-3 text-sm font-bold text-white shadow-md shadow-brand/25 transition hover:bg-brand-deep"
-              >
-                Pesan via WhatsApp
-              </a>
-            </figcaption>
-          </figure>
-        </div>
-      </Teleport>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { templateCategories, templates, formatPrice, type CatalogTemplate, type TemplateFilter } from '~/data/templates'
+import { templateCategories, templates, type TemplateFilter } from '~/data/templates'
 import { useWhatsApp } from '~/composables/useWhatsApp'
 
 const activeFilter = ref<TemplateFilter>('Semua')
@@ -142,50 +82,6 @@ const filtered = computed(() => {
   return templates.filter((t) => t.category === activeFilter.value)
 })
 
-const { general, templateInterest } = useWhatsApp()
+const { general } = useWhatsApp()
 const waGeneral = general('Halo Katha, saya ingin konsultasi memilih template undangan digital.')
-
-// ---- Lightbox preview ----
-const previewing = ref<CatalogTemplate | null>(null)
-const closeBtn = ref<HTMLButtonElement | null>(null)
-const previewWa = computed(() =>
-  previewing.value ? templateInterest(previewing.value.name) : '#',
-)
-
-function lockScroll(lock: boolean) {
-  document.body.style.overflow = lock ? 'hidden' : ''
-  const lenis = (useNuxtApp().$lenis ?? null) as { stop?: () => void; start?: () => void } | null
-  if (lock) lenis?.stop?.()
-  else lenis?.start?.()
-}
-
-function openPreview(t: CatalogTemplate) {
-  previewing.value = t
-  lockScroll(true)
-}
-
-function closePreview() {
-  previewing.value = null
-  lockScroll(false)
-}
-
-function onKey(e: KeyboardEvent) {
-  if (e.key === 'Escape') closePreview()
-}
-
-watch(previewing, async (v) => {
-  if (v) {
-    window.addEventListener('keydown', onKey)
-    await nextTick()
-    closeBtn.value?.focus()
-  }
-  else {
-    window.removeEventListener('keydown', onKey)
-  }
-})
-
-onUnmounted(() => {
-  window.removeEventListener('keydown', onKey)
-  lockScroll(false)
-})
 </script>

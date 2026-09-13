@@ -49,8 +49,8 @@
       aria-hidden="true"
     />
 
-    <!-- ─── Konten teks (melayang di tengah-bawah) ─── -->
-    <div class="absolute inset-0 flex flex-col items-center justify-end pb-20 px-6 text-center">
+    <!-- ─── Konten teks (mobile: tengah halaman, landscape: bawah) ─── -->
+    <div class="absolute inset-0 flex flex-col items-center justify-center px-6 pb-10 text-center landscape:justify-end landscape:pb-20">
       <!-- Eyebrow label -->
       <p :class="eyebrowClass">
         {{ data.invitationLabel }}

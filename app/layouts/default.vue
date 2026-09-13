@@ -6,7 +6,7 @@
     >
       Lewati ke konten utama
     </a>
-    <LayoutNavbar />
+    <LayoutNavbar v-if="!isTemplateRoute" />
     <main id="main">
       <slot />
     </main>
@@ -15,8 +15,9 @@
 </template>
 
 <script setup lang="ts">
-// Route demo/katalog template punya footer brand sendiri di dalam undangan,
-// jadi footer landing disembunyikan di sana.
+// Route demo/katalog template adalah halaman undangan fullscreen —
+// navbar & footer landing disembunyikan di sana (undangan punya
+// footer brand sendiri di dalamnya).
 const route = useRoute()
 const isTemplateRoute = computed(() => route.path.startsWith('/templates/'))
 </script>
