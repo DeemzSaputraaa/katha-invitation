@@ -66,6 +66,10 @@ const props = withDefaults(
 
 const audioEl = ref<HTMLAudioElement | null>(null)
 const isPlaying = ref(false)
+/** True jika tamu mematikan via tombol — auto-resume dimatikan sampai play manual. */
+const userPaused = ref(false)
+/** Ingat status sebelum tab disembunyikan untuk auto-resume. */
+let resumeOnVisible = false
 
 const btnStyle = computed(() => ({
   background: props.bgColor,
@@ -87,11 +91,38 @@ function pause() {
 }
 
 function toggle() {
-  if (isPlaying.value) pause()
-  else void play()
+  if (isPlaying.value) {
+    userPaused.value = true
+    pause()
+  }
+  else {
+    userPaused.value = false
+    resumeOnVisible = false
+    void play()
+  }
 }
 
+function onVisibilityChange() {
+  if (document.hidden) {
+    // Tab/aplikasi disembunyikan → pause sementara, ingat statusnya.
+    resumeOnVisible = isPlaying.value
+    pause()
+  }
+  else if (resumeOnVisible && !userPaused.value) {
+    // Kembali ke halaman → lanjutkan, kecuali tamu mematikan manual.
+    resumeOnVisible = false
+    void play()
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('visibilitychange', onVisibilityChange)
+  window.addEventListener('pagehide', pause)
+})
+
 onUnmounted(() => {
+  document.removeEventListener('visibilitychange', onVisibilityChange)
+  window.removeEventListener('pagehide', pause)
   pause()
 })
 

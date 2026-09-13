@@ -93,6 +93,17 @@ body {
   border: 2px solid #fff;
 }
 
+/* Halaman undangan (/templates/*): sembunyikan scrollbar viewport agar
+   tampil seperti aplikasi fullscreen. Scroll tetap berfungsi (native). */
+html.template-route,
+html.template-route body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html.template-route::-webkit-scrollbar {
+  display: none;
+}
+
 /* Kolom konten undangan di desktop (kanan) dipaksa tampil seperti di HP:
    netralkan grid 2-kolom + judul vertikal sticky per section yang memakai
    variant `landscape:`, serta grid `sm:` yang terlalu sempit di kolom 430px.

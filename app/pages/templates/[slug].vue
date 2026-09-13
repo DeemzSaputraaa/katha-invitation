@@ -32,7 +32,10 @@ if (!TemplateComponent) {
 // Undangan memakai native scroll — Lenis sudah dimatikan otomatis
 // di route ini oleh plugin lenis (init/destroy per route).
 
-useHead({ title: `Demo ${tpl.name}` })
+useHead({
+  title: `Demo ${tpl.name}`,
+  htmlAttrs: { class: 'template-route' },
+})
 useSeoMeta({
   title: `Demo ${tpl.name}`,
   description: `${tpl.description} Lihat demo undangan digital ${tpl.name} — ${formatPrice(tpl.price)}, sekali bayar.`,
