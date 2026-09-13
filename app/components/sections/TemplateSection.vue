@@ -97,22 +97,31 @@
               height="780"
               class="max-h-[68vh] w-full object-cover object-top"
             >
-            <figcaption class="flex items-center justify-between gap-3 p-4">
-              <div>
-                <p class="font-serif text-xl font-semibold text-stone-950">
-                  {{ previewing.name }}
-                </p>
-                <p class="text-sm font-bold text-brand-deep">
-                  {{ formatPrice(previewing.price) }}
-                </p>
+            <figcaption class="p-4">
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <p class="font-serif text-xl font-semibold text-stone-950">
+                    {{ previewing.name }}
+                  </p>
+                  <p class="text-sm font-bold text-brand-deep">
+                    {{ formatPrice(previewing.price) }}
+                  </p>
+                </div>
+                <NuxtLink
+                  :to="`/templates/${previewing.slug}`"
+                  class="inline-flex items-center justify-center rounded-full border border-brand/30 px-5 py-2.5 text-sm font-bold text-brand-ink transition hover:border-brand hover:bg-brand-soft/50"
+                  @click="closePreview"
+                >
+                  Lihat Demo
+                </NuxtLink>
               </div>
               <a
                 :href="previewWa"
                 target="_blank"
                 rel="noopener"
-                class="inline-flex items-center justify-center rounded-full bg-brand px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-brand/25 transition hover:bg-brand-deep"
+                class="mt-3 inline-flex w-full items-center justify-center rounded-full bg-brand px-5 py-3 text-sm font-bold text-white shadow-md shadow-brand/25 transition hover:bg-brand-deep"
               >
-                Pesan
+                Pesan via WhatsApp
               </a>
             </figcaption>
           </figure>
@@ -123,25 +132,21 @@
 </template>
 
 <script setup lang="ts">
-import { templateCategories, templates, formatPrice, type InvitationTemplate, type TemplateFilter } from '~/data/templates'
+import { templateCategories, templates, formatPrice, type CatalogTemplate, type TemplateFilter } from '~/data/templates'
 import { useWhatsApp } from '~/composables/useWhatsApp'
 
 const activeFilter = ref<TemplateFilter>('Semua')
 
 const filtered = computed(() => {
   if (activeFilter.value === 'Semua') return templates
-  return templates.filter(
-    (t) =>
-      t.category === activeFilter.value ||
-      (activeFilter.value === 'Wedding' && t.category === 'Wedding'),
-  )
+  return templates.filter((t) => t.category === activeFilter.value)
 })
 
 const { general, templateInterest } = useWhatsApp()
 const waGeneral = general('Halo Katha, saya ingin konsultasi memilih template undangan digital.')
 
 // ---- Lightbox preview ----
-const previewing = ref<InvitationTemplate | null>(null)
+const previewing = ref<CatalogTemplate | null>(null)
 const closeBtn = ref<HTMLButtonElement | null>(null)
 const previewWa = computed(() =>
   previewing.value ? templateInterest(previewing.value.name) : '#',
@@ -154,7 +159,7 @@ function lockScroll(lock: boolean) {
   else lenis?.start?.()
 }
 
-function openPreview(t: InvitationTemplate) {
+function openPreview(t: CatalogTemplate) {
   previewing.value = t
   lockScroll(true)
 }

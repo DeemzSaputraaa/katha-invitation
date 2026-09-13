@@ -7,7 +7,8 @@
 Membangun landing page modern untuk bisnis undangan digital yang berfungsi sebagai:
 
 - Brand introduction
-- Katalog template undangan
+- Katalog template (Aurelia — master referensi)
+- Demo interaktif template (`/templates/aurelia`)
 - Informasi harga
 - Penjelasan fitur
 - FAQ
@@ -26,11 +27,9 @@ Tujuan utama:
 1. Membuat bisnis terlihat profesional dan terpercaya.
 2. Menampilkan template undangan dengan visual yang menarik.
 3. Memudahkan calon customer menemukan template.
-4. Mengarahkan customer melakukan pemesanan melalui WhatsApp.
-5. Memiliki fondasi frontend yang siap dikembangkan menjadi platform SaaS.
-
-> Catatan: tujuan "melihat demo template sebelum membeli" DITUNDA —
-> demo interaktif menyusul per template (lihat section 12).
+4. Memungkinkan customer melihat demo template sebelum membeli.
+5. Mengarahkan customer melakukan pemesanan melalui WhatsApp.
+6. Memiliki fondasi frontend yang siap dikembangkan menjadi platform SaaS.
 
 ### Primary Goal
 
@@ -179,6 +178,7 @@ Desktop:
 - Logo / brand
 - Template
 - Fitur
+- Cara Pesan
 - Harga
 - FAQ
 - CTA
@@ -223,7 +223,10 @@ CTA (satu-satunya):
 > Lihat Template
 
 Hero menggunakan layout centered satu kolom tanpa visual/mockup di sisi kanan —
-hanya badge, headline, subheading, satu CTA, dan checklist keunggulan.
+hanya badge, headline, subheading, satu CTA.
+
+Hero setinggi 1 viewport penuh (`min-h-screen`) dengan konten center vertikal,
+background cream + 3 blob warna lembut (oren, pumpkin, hijau).
 
 Jangan menggunakan hero yang terlalu penuh.
 
@@ -231,18 +234,19 @@ Jangan menggunakan hero yang terlalu penuh.
 
 # 9. Social Proof / Trust Section
 
-Tambahkan section pendek setelah hero.
+Section pendek setelah hero dengan background hijau gelap solid (#09332C).
 
 Contoh:
 
 > Dibuat untuk membuat momen spesial Anda terasa lebih berkesan.
 
-Tampilkan beberapa value:
+Isi 4 kartu putih (2 kolom di HP, 4 kolom di desktop), masing-masing dengan
+ikon garis SVG minimal di kotak tinted:
 
-- Elegant Design
-- Mobile Friendly
-- Mudah Dibagikan
-- Cepat & Ringan
+- Desain Elegan — Template yang dirancang untuk memberikan kesan premium dan personal.
+- Mudah Dibagikan — Cukup kirim satu link melalui WhatsApp, Instagram, atau media sosial lainnya.
+- Interaktif & Personal — Dilengkapi countdown, galeri, RSVP, ucapan, love story, dan fitur lainnya.
+- Cepat & Praktis — Tidak perlu cetak dan bisa langsung dibagikan kepada tamu.
 
 Tidak perlu angka palsu seperti:
 
@@ -272,19 +276,28 @@ Setiap card memiliki:
 - Nama template
 - Kategori
 - Harga
-- CTA "Pesan via WhatsApp"
+- Tombol "Preview" + CTA "Pesan"
 
 Contoh:
 
 ```text
+Aurelia
 Elegant
-Wedding
-Rp79.000
+Rp99.000
 
-[Pesan via WhatsApp]
+[Preview] [Pesan]
 ```
 
 Template harus memiliki visual preview yang besar.
+
+Tombol "Preview" membuka lightbox (gambar besar, nama, harga, tombol Pesan).
+Di dalam lightbox ada tombol "Lihat Demo" menuju `/templates/[slug]`.
+
+Flow: Katalog → Preview (lightbox) → Lihat Demo → Full Invitation → Pesan → WhatsApp.
+
+Tombol "Preview" membuka lightbox berisi gambar template ukuran besar,
+nama, harga, dan tombol Pesan. Lightbox dapat ditutup via tombol ×,
+klik backdrop, atau tombol ESC, dan mengunci scroll halaman saat terbuka.
 
 ---
 
@@ -308,41 +321,121 @@ Jangan membuat sistem backend.
 
 ---
 
-# 12. Template Detail / Demo (DITUNDA)
+# 12. Template Detail / Demo (LIVE — Aurelia, master referensi)
 
-> Status: halaman demo dihapus untuk versi saat ini. Route `/templates/[slug]`
-> TIDAK ada. Tombol demo di hero, kartu katalog, dan footer sudah dihapus.
-> Demo interaktif akan dibangun ulang nanti, masing-masing dari katalognya.
+Katha memiliki 1 template master — Aurelia (Elegant, editorial mewah,
+serif italic, ivory + gold) — undangan lengkap dari opening sampai closing.
+Template baru dibuat dengan meng-copy Aurelia lalu mengubah karakter
+visual + urutan section (panduan ada di header file `AureliaTemplate.vue`).
 
-Spesifikasi di bawah ini disimpan sebagai acuan masa depan dan JANGAN
-diimplementasikan sampai ada instruksi:
+Cara menambah template:
+1. Copy `AureliaTemplate.vue` → mis. `NoirTemplate.vue`.
+2. Tambah data di `data/invitations.ts` dengan key = slug baru.
+3. Daftarkan di `registry.ts` + `templates.ts` (field `component`).
+4. Buat preview SVG `public/images/templates/<slug>.svg`.
+5. Tambah route prerender di `nuxt.config.ts` + tambah slug ke
+   `TemplateComponentName` di `types/invitation.ts`.
 
-Setiap template harus dapat dibuka.
+## Route
 
-Contoh route:
+Dynamic route `/templates/[slug]` (contoh: `/templates/aurelia`).
+Slug tidak dikenal → 404 proper, tanpa crash.
+
+## Architecture (wajib dipertahankan)
 
 ```text
-/templates/elegant
+Template  = Design/Layout  (components/invitation/templates/TemplateXX.vue)
+Data      = Customer Content (types/invitation.ts + data/invitations.ts)
+Renderer  = pages/templates/[slug].vue (Template + Data via registry)
 ```
 
-Halaman demo harus terasa seperti undangan digital sungguhan.
+- Satu `data/templates.ts` dipakai katalog DAN route (single source of truth).
+- Registry: static import slug → komponen (bukan dynamic import).
+- Data dummy netral per template, berbeda antar template, tidak di-hardcode di komponen.
+- Jangan copy TemplateXX.vue per customer — satu template dipakai berkali-kali dengan data berbeda.
 
-Contoh section:
+## Reusable sections
 
-- Cover
-- Nama pasangan
-- Countdown
-- Wedding event
-- Location
-- Story
-- Gallery
-- RSVP
-- Wishes
-- Closing
+`components/invitation/sections/`: Opening, Hero, Greeting, Couple,
+Countdown, Event, Location, Verse (ayat/kutipan), Story, Gallery, Gift,
+RSVP, Wishes, Closing.
+Section menerima variant (mis. countdown `boxed|minimal|wide`, gallery
+`grid|masonry|editorial`, couple `stacked|split`, story `timeline|editorial`,
+event `cards|list`) — visual quality lebih penting daripada abstraksi.
 
-Data demo menggunakan dummy data netral (jangan nama orang spesifik).
+Setiap template wajib lengkap ala undangan customer: Location setelah
+Event, Verse setelah Location, dan Gift mencantumkan rekening (tombol
+salin) + alamat kirim hadiah fisik.
 
-Tujuan halaman ini bukan hanya memperlihatkan screenshot tetapi memperlihatkan bagaimana template bekerja ketika digunakan.
+## Opening split-screen (wajib)
+
+Opening adalah gate fullscreen (`min-h-[100svh]`) dengan dua panel:
+
+- Landscape/desktop: panel kiri editorial 68% + panel kanan cover 32%.
+  Proporsi bukan 50:50 — kanan lebih sempit sebagai visual utama.
+- Portrait/mobile: panel kiri `display:none`, panel kanan penuh
+  (`100vw × 100svh`). JANGAN menumpuk kiri-di-atas-kanan.
+
+Ditentukan oleh orientation (`landscape:` variant), bukan sekadar width —
+tablet portrait ikut aturan portrait.
+
+## Konsep split katalog / isi undangan (wajib)
+
+Setelah "Buka Undangan" diklik, konten Hero sampai Closing memakai
+layout split 2 kolom di landscape (lihat `AureliaTemplate.vue`):
+
+- KIRI (`aside`, `landscape:sticky top-14 h-[calc(100svh-3.5rem)] flex-1`):
+  statis/diam, hanya teks editorial — label undangan, nama mempelai besar
+  serif italic, divider aksen, tanggal. Background warna panel template
+  (Aurelia: `#D1E8FC`).
+- KANAN (`landscape:w-[430px] shrink-0 shadow-2xl`): kolom selebar HP yang
+  ikut scroll halaman, berisi SEMUA section (Hero, Greeting, Couple,
+  Countdown, Event, Location, Verse, Story, Gallery, Gift, RSVP, Wishes,
+  Closing, Footer) sama persis seperti tampilan mobile (dipaksa via
+  `.inv-mobile-col`, `max-w-2xl`).
+- Portrait/mobile: single-column normal, panel kiri `hidden`.
+
+Tidak ada section isi yang memakai grid 2 kolom per-section — split hanya
+di level template (kiri statis vs kanan scroll).
+
+## Konsep Closing → Footer menyatu via gradasi (wajib)
+
+Closing (`InvitationClosing.vue`) dan footer undangan
+(`InvitationFooter.vue`) harus tampak sebagai satu kesatuan tanpa garis
+batas:
+
+- Closing: foto background penuh `100svh` + overlay gradasi gelap bawah
+  (`rgba(10,30,60,0.82)` → transparan atas) agar teks putih terbaca.
+- Ujung bawah closing ada fade `h-40`:
+  `linear-gradient(to bottom, transparent → fadeColor)`.
+- Footer TIDAK punya background solid sendiri — `bgColor` prop footer HARUS
+  sama dengan `fadeColor` closing (Aurelia: `#1A4F7A`), sehingga fade
+  melebur seamlessly ke footer.
+- Di dalam footer ada gradasi lanjutan:
+  `linear-gradient(to bottom, bgColor → bgColorDeep)` untuk memberi dimensi
+  (atas = warna fade closing, bawah = lebih deep/gelap).
+- Aturan: setiap template baru wajib menjaga pasangan
+  `fadeColor == bgColor`; hanya `bgColorDeep` yang boleh berbeda untuk efek
+  gradasi ke bawah.
+
+## Cover / Buka Undangan
+
+Tombol "Buka Undangan" ada di panel kanan (agar tersedia di mobile).
+Implementasi overlay: konten tetap di DOM (baik untuk SEO/prerender),
+cover hilang saat tombol diklik. Tanpa loading palsu. Hero terpisah
+tampil setelah opening: label, nama pasangan, tanggal, visual berbingkai.
+
+## Aturan khusus halaman undangan
+
+- Lenis DIMATIKAN di route `/templates/*` — undangan memakai native scroll.
+- Tanpa musik (jangan fake functionality).
+- Tanpa iframe Google Maps — tombol link saja (performance).
+- Galeri memakai placeholder SVG sepalet (`public/images/gallery/`).
+- Copy nomor rekening harus benar-benar bekerja (clipboard + fallback).
+- RSVP & wishes hanya local state (demo, tanpa backend).
+- Countdown live (days/hours/minutes/seconds), render statis `--` sampai
+  mounted agar tidak hydration mismatch; ada state jika tanggal lewat.
+- Mobile-first; desktop memakai max-width + komposisi editorial.
 
 ---
 
@@ -350,29 +443,33 @@ Tujuan halaman ini bukan hanya memperlihatkan screenshot tetapi memperlihatkan b
 
 Heading:
 
-> Semua yang Anda Butuhkan dalam Satu Undangan
+> Apa saja yang ada di dalamnya?
 
-Feature:
+Tampilkan 6 fitur dalam grid:
 
-### Elegant Design
+### 01 — Countdown
 
-Desain modern yang dibuat untuk memberikan kesan premium.
+Hitung mundur menuju hari spesial.
 
-### Mobile Friendly
+### 02 — Event & Google Maps
 
-Nyaman dibuka melalui smartphone, tablet, maupun desktop.
+Informasi acara lengkap dengan lokasi yang mudah ditemukan.
 
-### Easy to Share
+### 03 — Photo Gallery
 
-Bagikan undangan dengan mudah melalui WhatsApp dan media sosial.
+Abadikan dan tampilkan momen terbaik kalian.
 
-### Interactive
+### 04 — RSVP & Ucapan
 
-Countdown, gallery, maps, RSVP, dan fitur interaktif lainnya.
+Tamu dapat mengonfirmasi kehadiran dan mengirimkan ucapan.
 
-### Fast
+### 05 — Love Story
 
-Optimasi performa sehingga undangan tetap ringan dan cepat dibuka.
+Ceritakan perjalanan kalian dari awal hingga hari bahagia.
+
+### 06 — Amplop Digital
+
+Berikan kemudahan bagi tamu yang ingin mengirimkan hadiah secara digital.
 
 ---
 
@@ -382,7 +479,7 @@ Buat proses sederhana dalam 3 langkah.
 
 ### 01 — Pilih Template
 
-Pilih desain yang paling sesuai dengan gaya Anda.
+Jelajahi katalog dan pilih gaya yang paling sesuai dengan momen spesialmu.
 
 ### 02 — Kirim Data
 
@@ -456,7 +553,7 @@ Setelah mendapatkan customer nyata, section testimonial dapat ditambahkan.
 
 # 17. FAQ
 
-Pertanyaan:
+Hanya 5 pertanyaan (jangan ditambah tanpa kebutuhan):
 
 ### Apa itu undangan digital?
 
@@ -466,13 +563,7 @@ Pertanyaan:
 
 ### Apakah bisa menggunakan foto sendiri?
 
-### Apakah bisa request desain?
-
 ### Bagaimana cara membagikan undangan?
-
-### Apakah bisa menggunakan Google Maps?
-
-### Apakah bisa menggunakan RSVP?
 
 Accordion harus smooth dan accessible.
 
@@ -480,7 +571,8 @@ Accordion harus smooth dan accessible.
 
 # 18. Final CTA
 
-Section sebelum footer.
+Section sebelum footer. Background cream + blob warna lembut seperti hero,
+konten di dalam kartu cream dengan heading gelap dan aksen oren.
 
 Heading:
 
@@ -502,19 +594,20 @@ Secondary:
 
 # 19. Footer
 
-Footer minimal.
+Footer satu kolom, rata tengah, background hijau gelap.
 
-Isi:
+Isi (berurutan dari atas ke bawah):
 
-- Logo
+- Brand (Katha)
+- Tagline (Undangan Digital Elegan)
 - Short description
-- Template
-- Fitur
-- Harga
-- FAQ
-- WhatsApp
-- Instagram
-- Copyright
+- Hubungi Kami: WhatsApp + nomor tampil (fast respons), Lokasi, Jam Operasional
+- Copyright + "Dibuat dengan teliti di Indonesia" (kiri-kanan di desktop)
+
+Tidak ada kolom link navigasi (Jelajahi dihapus).
+
+Instagram dan Email sudah tersimpan di `site.ts` tetapi disembunyikan
+sampai akunnya benar-benar ada.
 
 ---
 
@@ -667,17 +760,26 @@ app/
 │   ├── layout/
 │   ├── sections/
 │   ├── template/
+│   ├── invitation/
+│   │   ├── sections/      (Opening, Hero, Greeting, Couple, Countdown,
+│   │   │                   Event, Location, Verse, Story, Gallery,
+│   │   │                   Gift, RSVP, Wishes, Closing)
+│   │   └── templates/     (AureliaTemplate.vue + registry.ts)
 │   └── ui/
 │
 ├── data/
-│   ├── templates.ts
+│   ├── templates.ts       (katalog: dipakai landing + route)
+│   ├── invitations.ts     (data dummy per template)
 │   ├── pricing.ts
 │   └── faq.ts
+│
+├── types/
+│   └── invitation.ts      (InvitationData, CatalogTemplate)
 │
 ├── pages/
 │   ├── index.vue
 │   └── templates/
-│       └── [slug].vue
+│       └── [slug].vue     (renderer: Template + Data)
 │
 ├── composables/
 ├── layouts/
@@ -748,7 +850,7 @@ Landing page dianggap selesai jika:
 - [ ] Navbar responsive
 - [ ] Template catalog selesai
 - [ ] Filtering template bekerja
-- [ ] Template detail/demo DITUNDA (route dihapus, menyusul per template)
+- [x] Template Aurelia bekerja (opening split, hero, countdown, event, location, galeri, gift, RSVP, wishes, closing)
 - [ ] Feature section selesai
 - [ ] How it works selesai
 - [ ] Pricing selesai

@@ -6,6 +6,9 @@ import { ref, onMounted, onUnmounted, computed } from 'vue'
  */
 export function useCountdown(target: Date | string) {
   const targetTime = new Date(target).getTime()
+  // `ready` false saat SSR/prerender agar HTML server & client identik
+  // (nilai "--"), lalu live setelah mounted — tanpa hydration mismatch.
+  const ready = ref(false)
   const now = ref(Date.now())
   let timer: ReturnType<typeof setInterval> | null = null
 
@@ -17,6 +20,8 @@ export function useCountdown(target: Date | string) {
   const passed = computed(() => targetTime - now.value <= 0)
 
   onMounted(() => {
+    ready.value = true
+    now.value = Date.now()
     timer = setInterval(() => {
       now.value = Date.now()
     }, 1000)
@@ -25,5 +30,5 @@ export function useCountdown(target: Date | string) {
     if (timer) clearInterval(timer)
   })
 
-  return { days, hours, minutes, seconds, passed }
+  return { days, hours, minutes, seconds, passed, ready }
 }

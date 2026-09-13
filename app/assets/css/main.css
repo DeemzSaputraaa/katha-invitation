@@ -93,6 +93,25 @@ body {
   border: 2px solid #fff;
 }
 
+/* Kolom konten undangan di desktop (kanan) dipaksa tampil seperti di HP:
+   netralkan grid 2-kolom + judul vertikal sticky per section yang memakai
+   variant `landscape:`, serta grid `sm:` yang terlalu sempit di kolom 430px.
+   Aturan ini unlayered sehingga menang atas utilities Tailwind yang layered. */
+@media (orientation: landscape) {
+  .inv-mobile-col .landscape\:grid { display: block; }
+  .inv-mobile-col .landscape\:sticky { position: static; }
+  .inv-mobile-col .landscape\:\[writing-mode\:vertical-rl\] { writing-mode: horizontal-tb; }
+  .inv-mobile-col .landscape\:mb-0 { margin-bottom: 2rem; }
+  .inv-mobile-col .landscape\:mt-6 { margin-top: 1rem; }
+  .inv-mobile-col .landscape\:h-20 { height: 1px; }
+  .inv-mobile-col .landscape\:w-px { width: 3rem; }
+}
+@media (min-width: 40rem) and (orientation: landscape) {
+  .inv-mobile-col .sm\:grid-cols-2 { grid-template-columns: minmax(0, 1fr); }
+  .inv-mobile-col .sm\:grid-cols-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .inv-mobile-col .sm\:grid-cols-\[1fr_1fr_auto\] { grid-template-columns: minmax(0, 1fr); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

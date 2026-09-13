@@ -53,11 +53,11 @@
 </template>
 
 <script setup lang="ts">
-import { formatPrice, type InvitationTemplate } from '~/data/templates'
+import { formatPrice, type CatalogTemplate } from '~/data/templates'
 import { useWhatsApp } from '~/composables/useWhatsApp'
 
 const props = defineProps<{
-  template: InvitationTemplate
+  template: CatalogTemplate
 }>()
 
 const emit = defineEmits<{

@@ -10,6 +10,13 @@
     <main id="main">
       <slot />
     </main>
-    <LayoutFooter />
+    <LayoutFooter v-if="!isTemplateRoute" />
   </div>
 </template>
+
+<script setup lang="ts">
+// Route demo/katalog template punya footer brand sendiri di dalam undangan,
+// jadi footer landing disembunyikan di sana.
+const route = useRoute()
+const isTemplateRoute = computed(() => route.path.startsWith('/templates/'))
+</script>
