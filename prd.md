@@ -332,6 +332,45 @@ Cara menambah template:
 5. Tambah route prerender di `nuxt.config.ts` + tambah slug ke
    `TemplateComponentName` di `types/invitation.ts`.
 
+## Arsitektur 3 lapis: TEMPLATE → INVITATION DATA → INVITATION URL (wajib)
+
+Aurelia adalah cetakan/master — JANGAN pernah mengedit file template
+untuk keperluan satu customer. Customer baru hanya menambah DATA:
+
+```text
+1. TEMPLATE (desain, tidak berubah)
+   components/invitation/templates/AureliaTemplate.vue
+   (design, layout, font, warna, animation, section)
+
+2. INVITATION DATA (konten customer, di data/invitations.ts)
+   "budi-sinta": {
+     template: "aurelia",
+     data: { couple: { person1: "Budi", person2: "Sinta" },
+             date: "20 Desember 2026",
+             coverImage: "/invitations/budi-sinta/cover.jpg",
+             gallery: ["/invitations/budi-sinta/1.jpg", ...] }
+   }
+
+3. INVITATION URL (otomatis dari key data)
+   katha.web.id/budi-sinta
+     → cari data "budi-sinta" → template = "aurelia"
+     → render Aurelia + data Budi & Sinta
+```
+
+Yang berubah per customer hanya: nama, foto, tanggal, lokasi, story,
+gallery, RSVP, rekening/gift, info acara, musik — desain tetap Aurelia.
+Demo katalog (`/templates/aurelia`, entry data key `"aurelia"`) tidak
+boleh diedit per customer agar tidak kehilangan demo.
+
+Cara menambah customer (manual, tahap awal):
+1. Minta data via WhatsApp / Google Form (nama, tanggal, venue, maps,
+   foto cover + gallery, love story, rekening, RSVP).
+2. Taruh foto di `public/invitations/<slug>/` (mis. `cover.jpg`, `1.jpg`).
+3. Tambah satu entry di `data/invitations.ts` (copy block contoh
+   `"budi-sinta"`, ganti key + isi).
+4. Tambah slug ke prerender `nuxt.config.ts`.
+5. Buka `katha.web.id/<slug>` untuk verifikasi.
+
 ## Route
 
 Dynamic route `/templates/[slug]` (contoh: `/templates/aurelia`).
@@ -344,8 +383,10 @@ tombol Preview di katalog membuka demo di tab baru (`target="_blank"`).
 
 ```text
 Template  = Design/Layout  (components/invitation/templates/TemplateXX.vue)
-Data      = Customer Content (types/invitation.ts + data/invitations.ts)
-Renderer  = pages/templates/[slug].vue (Template + Data via registry)
+Data      = Customer Content (types/invitation.ts: CustomerInvitation +
+            data/invitations.ts: { template, data } per slug)
+Renderer  = pages/[slug].vue (undangan customer: Template + Data via registry)
+            pages/templates/[slug].vue (demo katalog, data key = slug template)
 ```
 
 - Satu `data/templates.ts` dipakai katalog DAN route (single source of truth).
@@ -857,6 +898,7 @@ Landing page dianggap selesai jika:
 - [ ] Template catalog selesai
 - [ ] Filtering template bekerja
 - [x] Template Aurelia bekerja (opening split, hero, countdown, event, location, galeri, gift, RSVP, wishes, closing)
+- [x] Arsitektur 3 lapis (template aurelia utuh + data demo + contoh customer /budi-sinta di URL root)
 - [ ] Feature section selesai
 - [ ] How it works selesai
 - [ ] Pricing selesai

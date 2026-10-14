@@ -70,7 +70,8 @@ export default defineNuxtConfig({
 
   nitro: {
     prerender: {
-      routes: ['/', '/templates/aurelia'],
+      // Daftarkan tiap slug undangan customer di sini agar ikut pre-render.
+      routes: ['/', '/templates/aurelia', '/budi-sinta'],
     },
   },
 })

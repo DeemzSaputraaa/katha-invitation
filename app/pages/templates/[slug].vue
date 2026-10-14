@@ -1,13 +1,13 @@
 <template>
   <div class="min-h-screen bg-white">
     <!-- Renderer: Template (design) + Data (konten) -->
-    <component :is="TemplateComponent" :data="invitation" :template-name="tpl.name" />
+    <component :is="TemplateComponent" :data="invitation.data" :template-name="tpl.name" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { getTemplateBySlug, formatPrice } from '~/data/templates'
-import { getInvitationData } from '~/data/invitations'
+import { getInvitation } from '~/data/invitations'
 import { resolveTemplateComponent } from '~/components/invitation/templates/registry'
 import { siteConfig } from '~/data/site'
 
@@ -19,7 +19,7 @@ if (!tpl) {
   throw createError({ statusCode: 404, statusMessage: 'Template tidak ditemukan' })
 }
 
-const invitation = getInvitationData(slug)
+const invitation = getInvitation(slug)
 if (!invitation) {
   throw createError({ statusCode: 404, statusMessage: 'Data undangan tidak ditemukan' })
 }

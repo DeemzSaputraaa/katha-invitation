@@ -6,18 +6,24 @@
     >
       Lewati ke konten utama
     </a>
-    <LayoutNavbar v-if="!isTemplateRoute" />
+    <LayoutNavbar v-if="!isInvitationRoute" />
     <main id="main">
       <slot />
     </main>
-    <LayoutFooter v-if="!isTemplateRoute" />
+    <LayoutFooter v-if="!isInvitationRoute" />
   </div>
 </template>
 
 <script setup lang="ts">
-// Route demo/katalog template adalah halaman undangan fullscreen —
-// navbar & footer landing disembunyikan di sana (undangan punya
-// footer brand sendiri di dalamnya).
+import { getInvitation } from '~/data/invitations'
+
+// Halaman undangan fullscreen (demo /templates/* maupun customer /<slug>)
+// tanpa navbar & footer landing — undangan punya footer brand sendiri.
 const route = useRoute()
 const isTemplateRoute = computed(() => route.path.startsWith('/templates/'))
+const isCustomerRoute = computed(() => {
+  const seg = route.path.slice(1).split('/')[0] ?? ''
+  return seg !== '' && getInvitation(seg) !== undefined
+})
+const isInvitationRoute = computed(() => isTemplateRoute.value || isCustomerRoute.value)
 </script>

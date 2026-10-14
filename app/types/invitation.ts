@@ -109,6 +109,20 @@ export interface InvitationSectionProps {
 export type TemplateComponentName = 'aurelia'
 
 /**
+ * Satu undangan customer = TEMPLATE (desain) + DATA (konten).
+ * Template tidak pernah diedit per customer — customer baru cukup tambah
+ * satu entry di `data/invitations.ts` dengan key = slug URL (mis. "budi-sinta").
+ * Contoh: { template: 'aurelia', data: { couple: { person1: 'Budi', ... } } }
+ * dirender di URL `/budi-sinta` dengan desain Aurelia.
+ */
+export interface CustomerInvitation {
+  /** Template desain yang dipakai (key registry, bukan data). */
+  template: TemplateComponentName
+  /** Data/konten milik customer. */
+  data: InvitationData
+}
+
+/**
  * Katalog template — SATU-SATUNYA source of truth.
  * Dipakai landing catalog DAN template route.
  * (Nanti: diganti respons Laravel API dengan bentuk yang sama.)
