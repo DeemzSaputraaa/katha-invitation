@@ -30,7 +30,7 @@
         </p>
         <div v-reveal:240 class="mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:items-center">
           <NuxtLink
-            to="/#template"
+            to="/katalog"
             class="inline-flex items-center justify-center rounded-full bg-brand px-8 py-3.5 text-[15px] font-bold text-white shadow-xl shadow-brand/30 transition hover:bg-brand-deep"
           >
             Lihat Template

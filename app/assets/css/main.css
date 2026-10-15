@@ -93,7 +93,7 @@ body {
   border: 2px solid #fff;
 }
 
-/* Halaman undangan (/templates/*): sembunyikan scrollbar viewport agar
+/* Halaman undangan (/<slug>): sembunyikan scrollbar viewport agar
    tampil seperti aplikasi fullscreen. Scroll tetap berfungsi (native). */
 html.template-route,
 html.template-route body {

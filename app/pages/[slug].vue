@@ -8,12 +8,13 @@
 
 <script setup lang="ts">
 import { getInvitation } from '~/data/invitations'
-import { templates } from '~/data/templates'
+import { templates, getTemplateBySlug, formatPrice } from '~/data/templates'
 import { resolveTemplateComponent } from '~/components/invitation/templates/registry'
 import { siteConfig } from '~/data/site'
 
 const route = useRoute()
 const slug = String(route.params.slug ?? '')
+const tpl = getTemplateBySlug(slug)
 
 const invitation = getInvitation(slug)
 if (!invitation) {
@@ -30,19 +31,25 @@ if (!TemplateComponent) {
 const templateName = templates.find((t) => t.component === invitation.template)?.name ?? invitation.template
 
 const coupleTitle = `${invitation.data.couple.person1.name} & ${invitation.data.couple.person2.name}`
+const title = tpl ? `Demo ${tpl.name}` : `Undangan ${coupleTitle}`
+const description = tpl
+  ? `${tpl.description} Lihat demo undangan digital ${tpl.name} — ${formatPrice(tpl.price)}, sekali bayar.`
+  : `Undangan digital ${coupleTitle} — ${invitation.data.dateLabel}.`
 
 // Undangan memakai native scroll — Lenis sudah dimatikan otomatis
 // di route ini oleh plugin lenis (init/destroy per route).
 
 useHead({
-  title: `Undangan ${coupleTitle}`,
+  title,
+  link: [{ rel: 'canonical', href: `${siteConfig.url}/${slug}` }],
   htmlAttrs: { class: 'template-route' },
 })
 useSeoMeta({
-  title: `Undangan ${coupleTitle}`,
-  description: `Undangan digital ${coupleTitle} — ${invitation.data.dateLabel}.`,
-  ogTitle: `Undangan ${coupleTitle} | ${siteConfig.brand}`,
-  ogDescription: `Undangan digital ${coupleTitle} — ${invitation.data.dateLabel}.`,
-  ogImage: invitation.data.coverImage,
+  title,
+  description,
+  ogTitle: `${title} | ${siteConfig.brand}`,
+  ogDescription: tpl?.description ?? description,
+  ogImage: tpl?.previewImage ?? invitation.data.coverImage,
+  ogUrl: `${siteConfig.url}/${slug}`,
 })
 </script>

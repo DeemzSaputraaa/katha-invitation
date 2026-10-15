@@ -1,46 +1,16 @@
 <template>
-  <div class="min-h-screen bg-white">
-    <!-- Renderer: Template (design) + Data (konten) -->
-    <component :is="TemplateComponent" :data="invitation.data" :template-name="tpl.name" />
-  </div>
+  <div />
 </template>
 
 <script setup lang="ts">
-import { getTemplateBySlug, formatPrice } from '~/data/templates'
-import { getInvitation } from '~/data/invitations'
-import { resolveTemplateComponent } from '~/components/invitation/templates/registry'
-import { siteConfig } from '~/data/site'
+import { getTemplateBySlug } from '~/data/templates'
 
 const route = useRoute()
 const slug = String(route.params.slug ?? '')
 
-const tpl = getTemplateBySlug(slug)
-if (!tpl) {
+if (!getTemplateBySlug(slug)) {
   throw createError({ statusCode: 404, statusMessage: 'Template tidak ditemukan' })
 }
 
-const invitation = getInvitation(slug)
-if (!invitation) {
-  throw createError({ statusCode: 404, statusMessage: 'Data undangan tidak ditemukan' })
-}
-
-const TemplateComponent = resolveTemplateComponent(tpl.component)
-if (!TemplateComponent) {
-  throw createError({ statusCode: 404, statusMessage: 'Template tidak ditemukan' })
-}
-
-// Undangan memakai native scroll — Lenis sudah dimatikan otomatis
-// di route ini oleh plugin lenis (init/destroy per route).
-
-useHead({
-  title: `Demo ${tpl.name}`,
-  htmlAttrs: { class: 'template-route' },
-})
-useSeoMeta({
-  title: `Demo ${tpl.name}`,
-  description: `${tpl.description} Lihat demo undangan digital ${tpl.name} — ${formatPrice(tpl.price)}, sekali bayar.`,
-  ogTitle: `Demo ${tpl.name} | ${siteConfig.brand}`,
-  ogDescription: tpl.description,
-  ogImage: tpl.previewImage,
-})
+await navigateTo({ path: `/${slug}`, query: route.query, hash: route.hash }, { redirectCode: 301 })
 </script>

@@ -8,11 +8,13 @@
       {{ eyebrow }}
       <span class="h-1 w-6 rounded-full bg-brand" aria-hidden="true" />
     </p>
-    <h2
+    <component
+      :is="tag ?? 'h2'"
+      :id="id"
       class="mt-4 text-balance font-serif text-4xl font-semibold leading-[1.08] tracking-tight text-stone-900 sm:text-5xl"
     >
       {{ title }}
-    </h2>
+    </component>
     <p v-if="subtitle" class="mx-auto mt-4 max-w-xl text-[16px] leading-relaxed text-stone-600">
       {{ subtitle }}
     </p>
@@ -21,6 +23,8 @@
 
 <script setup lang="ts">
 defineProps<{
+  tag?: 'h1' | 'h2'
+  id?: string
   eyebrow?: string
   title: string
   subtitle?: string

@@ -23,7 +23,7 @@ function venueMaps(query: string): string {
  */
 
 export const invitations: Record<string, CustomerInvitation> = {
-  // ── DEMO katalog (URL demo: /templates/aurelia). Jangan diedit per customer.
+  // ── DEMO katalog (URL demo: /aurelia). Jangan diedit per customer.
   aurelia: {
     template: 'aurelia',
     data: {
@@ -118,6 +118,134 @@ export const invitations: Record<string, CustomerInvitation> = {
       'Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Anda berkenan hadir untuk memberikan doa restu.',
       'Kami yang berbahagia,',
     ],
+    },
+  },
+
+  // ── DEMO Florena. Foto memakai aset contoh lokal, konten terpisah dari Aurelia.
+  florena: {
+    template: 'florena',
+    data: {
+      greeting: 'Assalamu’alaikum warahmatullahi wabarakatuh',
+      invitationLabel: 'The Wedding Of',
+      couple: {
+        person1: {
+          name: 'Nara Kirana',
+          parents: 'Putri pertama dari Bpk. Arif Rahman & Ibu Ratna Sari',
+          photo: '/images/gallery/mempelaiwanita.jpg',
+        },
+        person2: {
+          name: 'Raka Pratama',
+          parents: 'Putra kedua dari Bpk. Hendra Wijaya & Ibu Maya Lestari',
+          photo: '/images/gallery/mempelaipria.jpg',
+        },
+      },
+      dateLabel: 'Minggu, 22 November 2026',
+      shortDateLabel: '22 . 11 . 2026',
+      countdownTo: '2026-11-22T08:00:00+07:00',
+      coverImage: '/images/gallery/berdua3.jpg',
+      heroSlides: [
+        { src: '/images/gallery/berdua3.jpg', alt: 'Potret kebersamaan Nara & Raka' },
+        { src: '/images/gallery/berdua5.jpg', alt: 'Momen hangat Nara & Raka' },
+        { src: '/images/gallery/berdua2.jpg', alt: 'Cerita cinta Nara & Raka' },
+      ],
+      closingImage: '/images/gallery/berdua4.jpg',
+      musicUrl: '/audio/romantic-pieces-1.mp3',
+      venue: {
+        name: 'Taman Senja',
+        address: 'Jl. Kaliurang, Sleman, Yogyakarta — lokasi contoh',
+        mapsUrl: venueMaps('Sleman Yogyakarta'),
+      },
+      events: [
+        { title: 'Akad Nikah', date: 'Minggu, 22 November 2026', time: '08.00 – 09.30 WIB', venue: 'Taman Senja', address: 'Sleman, Yogyakarta' },
+        { title: 'Resepsi', date: 'Minggu, 22 November 2026', time: '10.30 – 13.00 WIB', venue: 'Taman Senja', address: 'Sleman, Yogyakarta' },
+      ],
+      verse: {
+        source: 'Q.S. Ar-Rum : 21',
+        text: 'Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang.',
+      },
+      story: [
+        { year: '2020', title: 'Pertemuan sederhana', text: 'Di sebuah toko buku kecil, percakapan tentang halaman favorit menjadi awal cerita kami.' },
+        { year: '2022', title: 'Tumbuh bersama', text: 'Dari berjalan sore hingga berbagi mimpi, kami menemukan rumah dalam kebersamaan.' },
+        { year: '2025', title: 'Satu janji', text: 'Di antara bunga dan doa keluarga, kami sepakat melangkah menuju hari yang sama.' },
+        { year: '2026', title: 'Selamanya dimulai', text: 'Dengan hati penuh syukur, kami mengundang Anda merayakan awal perjalanan baru kami.' },
+      ],
+      gallery: [
+        { src: '/images/gallery/berdua3.jpg', alt: 'Cerita Nara & Raka — bersama' },
+        { src: '/images/gallery/berdua1.jpg', alt: 'Cerita Nara & Raka — senyum' },
+        { src: '/images/gallery/berdua5.jpg', alt: 'Cerita Nara & Raka — hari bahagia' },
+        { src: '/images/gallery/berdua2.jpg', alt: 'Cerita Nara & Raka — perjalanan' },
+        { src: '/images/gallery/berdua6.jpg', alt: 'Cerita Nara & Raka — kenangan' },
+        { src: '/images/gallery/berdua4.jpg', alt: 'Cerita Nara & Raka — selamanya' },
+      ],
+      gifts: [
+        { bank: 'Bank BCA (contoh)', number: '123 456 7890', name: 'Nara Kirana' },
+        { bank: 'Bank Mandiri (contoh)', number: '098 765 4321', name: 'Raka Pratama' },
+      ],
+      giftAddress: {
+        name: 'Nara & Raka',
+        phone: '0812-0000-0000 (contoh)',
+        address: 'Jl. Melati No. 22, Sleman, Yogyakarta — alamat contoh',
+      },
+      wishes: [
+        { name: 'Keluarga Rahman', message: 'Semoga cinta kalian terus tumbuh dan rumah tangga selalu dipenuhi kasih serta keberkahan.' },
+        { name: 'Alya & Fajar', message: 'Bahagia selalu, Nara dan Raka. Tidak sabar merayakan hari istimewa kalian!' },
+      ],
+      opening: [
+        'Dengan memohon rahmat dan ridha Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan berbagi kebahagiaan di hari pernikahan kami.',
+      ],
+      closing: [
+        'Seperti bunga yang tumbuh bersama musim, semoga kasih kami senantiasa bersemi dalam doa dan restu Anda.',
+        'Terima kasih telah menjadi bagian dari cerita kami.',
+      ],
+    },
+  },
+
+  // ── PORTOFOLIO Amalia (KATALOG SAJA, JANGAN dipakai ulang).
+  // Data asli Amalia & Fajar. Customer baru WAJIB pakai aurelia/florena,
+  // jangan copy entry ini. Flag portfolioOnly ada di data/templates.ts.
+  amalia: {
+    template: 'amalia',
+    data: {
+      greeting: 'Assalamu’alaikum warahmatullahi wabarakatuh',
+      invitationLabel: 'Walimatul Ursy',
+      couple: {
+        person1: {
+          name: 'Amalia Nur Afifah',
+          shortName: 'Amalia',
+          parents: 'Putri dari Bapak Drs. H. Sutono Istiarwan & Ibu Bekti Kristiani, S. P.',
+        },
+        person2: {
+          name: 'Muh. Fajar Adnan Dhali',
+          shortName: 'Fajar',
+          parents: 'Putra dari Bapak H. Dalijan, S.Pd & Ibu Ninik Ratnawati',
+        },
+      },
+      coverImage: '/images/templates/amalia/couple.webp',
+      closingImage: '/images/templates/amalia/closing.webp',
+      musicUrl: '/audio/amalia-kasih-putih.mp3',
+      musicTracks: [
+        { title: 'Kasih Putih', artist: 'Glenn Fredly', src: '/audio/amalia-kasih-putih.mp3' },
+        { title: 'Yang Terbaik Bagimu', artist: 'Ada Band', src: '/audio/amalia-yang-terbaik-bagimu.mp3' },
+      ],
+      dateLabel: 'Sabtu, 4 Juli 2026',
+      shortDateLabel: '04 . 07 . 2026',
+      countdownTo: '2026-07-04T08:00:00+07:00',
+      venue: {
+        name: 'Rumah Makan Padang Saiyo Sapta Pesona',
+        address: 'Jl. Purworejo - Kedunggong, Wates, Kec. Wates, Kabupaten Kulon Progo, Daerah Istimewa Yogyakarta',
+        mapsUrl: venueMaps('Rumah Makan Saiyo Sapta Pesona Kulon Progo'),
+      },
+      events: [
+        { title: 'Akad Nikah', date: 'Sabtu, 4 Juli 2026', time: '08.00 – 09.00 WIB', venue: 'Rumah Makan Padang Saiyo Sapta Pesona', address: 'Wates, Kulon Progo' },
+        { title: 'Walimatul Ursy', date: 'Sabtu, 4 Juli 2026', time: '10.00 – 11.00 WIB', venue: 'Rumah Makan Padang Saiyo Sapta Pesona', address: 'Wates, Kulon Progo' },
+      ],
+      // Isi array ini jika customer memerlukan bagian tambahan.
+      story: [],
+      gallery: [],
+      gifts: [],
+      wishes: [],
+      opening: ['Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan pernikahan putra-putri kami.'],
+      closing: ['Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu kepada kedua mempelai.'],
     },
   },
 

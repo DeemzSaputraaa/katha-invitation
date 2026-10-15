@@ -2,6 +2,8 @@
   <section id="template" aria-labelledby="template-heading" class="scroll-mt-20 bg-white">
     <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-28">
       <UiSectionHeading
+        id="template-heading"
+        :tag="headingTag"
         eyebrow="Katalog"
         title="Pilih Desain Favoritmu"
         subtitle="Temukan template yang sesuai dengan gaya dan momen spesialmu. Suka satu? Pesan langsung via WhatsApp."
@@ -9,6 +11,7 @@
 
       <!-- Filter -->
       <div
+        v-if="!preview"
         v-reveal
         class="mt-10 flex flex-wrap justify-center gap-2"
         role="group"
@@ -32,16 +35,16 @@
       </div>
 
       <p class="sr-only" role="status" aria-live="polite">
-        Menampilkan {{ filtered.length }} template
+        Menampilkan {{ visibleTemplates.length }} template
       </p>
 
       <!-- Grid -->
       <div
-        v-if="filtered.length"
+        v-if="visibleTemplates.length"
         class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
       >
         <TemplateCard
-          v-for="(t, i) in filtered"
+          v-for="(t, i) in visibleTemplates"
           :key="t.id"
           v-reveal="(i % 3) * 80"
           :template="t"
@@ -67,6 +70,17 @@
         </a>
       </div>
 
+      <div v-if="preview" class="mt-10 flex justify-center">
+        <NuxtLink
+          to="/katalog"
+          class="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-bold text-white shadow-md shadow-brand/25 transition hover:bg-brand-deep focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
+        >
+          Lihat Semua
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </NuxtLink>
+      </div>
     </div>
   </section>
 </template>
@@ -75,12 +89,19 @@
 import { templateCategories, templates, type TemplateFilter } from '~/data/templates'
 import { useWhatsApp } from '~/composables/useWhatsApp'
 
+const props = defineProps<{
+  headingTag?: 'h1' | 'h2'
+  preview?: boolean
+}>()
+
 const activeFilter = ref<TemplateFilter>('Semua')
 
 const filtered = computed(() => {
   if (activeFilter.value === 'Semua') return templates
   return templates.filter((t) => t.category === activeFilter.value)
 })
+
+const visibleTemplates = computed(() => props.preview ? templates.slice(0, 3) : filtered.value)
 
 const { general } = useWhatsApp()
 const waGeneral = general('Halo Katha, saya ingin konsultasi memilih template undangan digital.')

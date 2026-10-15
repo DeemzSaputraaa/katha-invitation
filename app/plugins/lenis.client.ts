@@ -68,7 +68,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   function sync(path: string) {
     // Route undangan memakai native scroll — Lenis dimatikan di sini.
-    if (path.startsWith('/templates/')) destroy()
+    if (path !== '/' && path.replace(/\/$/, '') !== '/katalog') destroy()
     else init()
   }
 

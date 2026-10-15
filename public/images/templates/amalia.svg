@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="780" viewBox="0 0 600 780" role="img" aria-label="Amalia — undangan pink lembut dengan kaligrafi dan monogram">
+  <defs><radialGradient id="blush"><stop stop-color="#FFFFFF"/><stop offset="1" stop-color="#FFEAF3"/></radialGradient></defs>
+  <rect width="600" height="780" fill="url(#blush)"/>
+  <g fill="#CFB46D" opacity=".48"><path d="M32 71h4v4h-4zm102 54h3v3h-3zm364-61h5v5h-5zm-78 112h3v3h-3zm-346 93h4v4h-4zm444 44h3v3h-3zm-322-91h3v3h-3zm120-159h4v4h-4zm-260 448h5v5h-5zm450-20h4v4h-4zm-384 143h3v3h-3zm342-14h6v6h-6zm-258 99h3v3h-3zm142 35h4v4h-4zm183-36h3v3h-3zm-18-307h3v3h-3zm-462 94h4v4h-4zm254 184h3v3h-3z"/></g>
+  <g text-anchor="middle">
+    <text x="300" y="222" fill="#385866" font-family="sans-serif" font-size="13" letter-spacing="5">WALIMATUL URSY</text>
+    <text x="295" y="358" fill="#302A2B" font-family="Georgia,serif" font-size="132" font-style="italic" letter-spacing="-18">af</text>
+    <path d="M170 343q40-25 75 0m95 0q45-22 90 0" fill="none" stroke="#302A2B" stroke-width="1.5"/>
+    <text x="300" y="425" fill="#385866" font-family="sans-serif" font-size="23" font-weight="300" letter-spacing="5">AMALIA &amp; FAJAR</text>
+    <text x="300" y="465" fill="#476C7C" font-family="sans-serif" font-size="15" letter-spacing="4">04 . 07 . 2026</text>
+    <text x="300" y="522" fill="#476C7C" font-family="sans-serif" font-size="9" letter-spacing="2">KEPADA YTH. BAPAK/IBU/SAUDARA/I</text>
+    <rect x="166" y="564" width="268" height="44" rx="22" fill="none" stroke="#C19AC7" stroke-opacity=".4"/>
+    <rect x="174" y="572" width="252" height="28" rx="14" fill="#476C7C"/>
+    <text x="300" y="591" fill="#FFFFFF" font-family="sans-serif" font-size="11" font-weight="600" letter-spacing="2">BUKA UNDANGAN</text>
+    <text x="300" y="697" fill="#A76A92" font-family="Georgia,serif" font-size="19" font-style="italic">Amalia · Romantic classic</text>
+  </g>
+</svg>

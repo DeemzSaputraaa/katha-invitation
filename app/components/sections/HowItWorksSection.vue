@@ -46,7 +46,7 @@ const steps = [
     no: '01',
     title: 'Pilih Template',
     text: 'Jelajahi katalog dan pilih gaya yang paling sesuai dengan momen spesialmu.',
-    link: { label: 'Lihat katalog →', href: '/#template' },
+    link: { label: 'Lihat katalog →', href: '/katalog' },
     badge: 'bg-brand',
   },
   {

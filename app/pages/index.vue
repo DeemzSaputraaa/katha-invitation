@@ -2,7 +2,7 @@
   <div>
     <SectionsHeroSection />
     <SectionsTrustSection />
-    <SectionsTemplateSection />
+    <SectionsTemplateSection preview />
     <SectionsFeaturesSection />
     <SectionsHowItWorksSection />
     <SectionsPricingSection />

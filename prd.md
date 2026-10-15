@@ -8,7 +8,7 @@ Membangun landing page modern untuk bisnis undangan digital yang berfungsi sebag
 
 - Brand introduction
 - Katalog template (Aurelia — master referensi)
-- Demo interaktif template (`/templates/aurelia`)
+- Demo interaktif template (`/aurelia`)
 - Informasi harga
 - Penjelasan fitur
 - FAQ
@@ -290,7 +290,7 @@ Rp99.000
 
 Template harus memiliki visual preview yang besar.
 
-Tombol "Preview" langsung menuju demo full undangan di `/templates/[slug]`
+Tombol "Preview" langsung menuju demo full undangan di `/[slug]`
 tanpa lightbox/popup perantara.
 
 Flow: Katalog → Preview (= Lihat Demo) → Full Invitation → Pesan → WhatsApp.
@@ -317,10 +317,25 @@ Jangan membuat sistem backend.
 
 ---
 
-# 12. Template Detail / Demo (LIVE — Aurelia, master referensi)
+# 12. Template Detail / Demo (LIVE — Aurelia & Florena + Portofolio Amalia)
 
-Katha memiliki 1 template master — Aurelia (Elegant, editorial mewah,
-serif italic, ivory + gold) — undangan lengkap dari opening sampai closing.
+Katha memiliki 2 template reusable + 1 portofolio katalog:
+
+- **Aurelia** (`/aurelia`, Elegant): editorial mewah, serif italic,
+  soft blue; tetap menjadi master referensi.
+- **Florena** (`/florena`, Floral): botanical romantis, hijau sage,
+  krem, dan terracotta, cover dedaunan, foto berbingkai lengkung, story
+  editorial, countdown wide, event list, serta galeri masonry.
+  Data demo Nara & Raka terpisah di key `florena`; foto menggunakan aset
+  contoh lokal yang sama. Demo RSVP dan ucapan diberi keterangan simulasi.
+- **Amalia** (`/amalia`, Floral, PORTOFOLIO SAJA): hasil nyata
+  Amalia & Fajar (`pernikahan-amalia-fajar.vercel.app`, sumber asli di
+  `D:/Project/undangan1`). Demo internal tetap bisa dibuka, kartu katalog
+  berlabel Portofolio + tombol Web Asli, TANPA tombol Pesan dan TANPA harga.
+  JANGAN dipakai ulang untuk customer lain (flag `portfolioOnly: true` di
+  `data/templates.ts`). Data `amalia` di `data/invitations.ts` dikunci untuk
+  pasangan asli tersebut.
+
 Template baru dibuat dengan meng-copy Aurelia lalu mengubah karakter
 visual + urutan section (panduan ada di header file `AureliaTemplate.vue`).
 
@@ -359,7 +374,7 @@ untuk keperluan satu customer. Customer baru hanya menambah DATA:
 
 Yang berubah per customer hanya: nama, foto, tanggal, lokasi, story,
 gallery, RSVP, rekening/gift, info acara, musik — desain tetap Aurelia.
-Demo katalog (`/templates/aurelia`, entry data key `"aurelia"`) tidak
+Demo katalog (`/aurelia`, entry data key `"aurelia"`) tidak
 boleh diedit per customer agar tidak kehilangan demo.
 
 Cara menambah customer (manual, tahap awal):
@@ -373,7 +388,8 @@ Cara menambah customer (manual, tahap awal):
 
 ## Route
 
-Dynamic route `/templates/[slug]` (contoh: `/templates/aurelia`).
+Katalog template tersedia di `/katalog`. Demo memakai dynamic route `/[slug]` (contoh: `/aurelia`).
+URL lama `/templates` dan `/templates/[slug]` dialihkan ke URL baru.
 Slug tidak dikenal → 404 proper, tanpa crash.
 Halaman demo adalah fullscreen tanpa navbar & footer landing
 (disembunyikan via `isTemplateRoute` di `layouts/default.vue`);
@@ -385,8 +401,8 @@ tombol Preview di katalog membuka demo di tab baru (`target="_blank"`).
 Template  = Design/Layout  (components/invitation/templates/TemplateXX.vue)
 Data      = Customer Content (types/invitation.ts: CustomerInvitation +
             data/invitations.ts: { template, data } per slug)
-Renderer  = pages/[slug].vue (undangan customer: Template + Data via registry)
-            pages/templates/[slug].vue (demo katalog, data key = slug template)
+Renderer  = pages/[slug].vue (demo katalog dan undangan customer via registry)
+            pages/templates/[slug].vue (redirect URL demo lama ke /[slug])
 ```
 
 - Satu `data/templates.ts` dipakai katalog DAN route (single source of truth).
@@ -467,7 +483,7 @@ tampil setelah opening: label, nama pasangan, tanggal, visual berbingkai.
 
 ## Aturan khusus halaman undangan
 
-- Lenis DIMATIKAN di route `/templates/*` — undangan memakai native scroll.
+- Lenis DIMATIKAN di route undangan `/<slug>` — undangan memakai native scroll.
 - Musik latar via `InvitationMusic.vue` (`data.musicUrl`, loop): autoplay
   dipicu klik "Buka Undangan" (user gesture agar lolos aturan browser),
   tombol melayang play/pause fixed kanan-bawah (z-60, di balik opening

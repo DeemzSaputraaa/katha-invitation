@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="900" viewBox="0 0 600 900" fill="none">
+  <defs>
+    <g id="branch">
+      <path d="M8 300C75 215 86 130 175 15M65 214C32 163 28 100 35 60M98 145C149 123 187 88 219 45" stroke="#718065" stroke-width="2"/>
+      <g fill="#96A183" fill-opacity=".48">
+        <path d="M34 253C-6 215 5 181 15 165C45 184 57 215 34 253Z"/>
+        <path d="M59 216C96 220 127 197 134 167C99 162 67 179 59 216Z"/>
+        <path d="M83 174C48 148 52 114 62 96C88 111 98 143 83 174Z"/>
+        <path d="M105 136C135 146 170 128 180 104C144 94 118 108 105 136Z"/>
+        <path d="M129 94C106 70 113 36 126 21C150 44 146 69 129 94Z"/>
+        <path d="M155 54C183 60 204 42 208 21C179 16 163 32 155 54Z"/>
+        <path d="M175 15C166-10 179-30 196-36C207-10 193 9 175 15Z"/>
+        <path d="M35 117C12 103 5 78 12 63C35 70 45 92 35 117Z"/>
+        <path d="M36 80C57 69 62 46 57 31C36 42 28 60 36 80Z"/>
+        <path d="M167 99C165 75 181 55 196 51C203 74 188 93 167 99Z"/>
+      </g>
+      <g fill="#718065" fill-opacity=".25">
+        <ellipse cx="23" cy="280" rx="14" ry="31" transform="rotate(-38 23 280)"/>
+        <ellipse cx="97" cy="230" rx="15" ry="34" transform="rotate(56 97 230)"/>
+      </g>
+    </g>
+    <g id="flower">
+      <g fill="#C18A6F" fill-opacity=".4">
+        <ellipse cy="-15" rx="12" ry="19"/>
+        <ellipse cy="-15" rx="12" ry="19" transform="rotate(72)"/>
+        <ellipse cy="-15" rx="12" ry="19" transform="rotate(144)"/>
+        <ellipse cy="-15" rx="12" ry="19" transform="rotate(216)"/>
+        <ellipse cy="-15" rx="12" ry="19" transform="rotate(288)"/>
+      </g>
+      <circle r="6" fill="#9A563D" fill-opacity=".6"/>
+    </g>
+  </defs>
+  <use href="#branch" transform="translate(-35 -20) rotate(8)"/>
+  <use href="#branch" transform="translate(635 920) rotate(188)"/>
+  <use href="#branch" transform="translate(570 -75) rotate(55) scale(.7)" opacity=".65"/>
+  <use href="#branch" transform="translate(30 975) rotate(235) scale(.7)" opacity=".65"/>
+  <use href="#flower" x="67" y="91"/>
+  <use href="#flower" x="533" y="809"/>
+  <use href="#flower" transform="translate(111 38) scale(.65)"/>
+  <use href="#flower" transform="translate(489 862) scale(.65)"/>
+  <g fill="#9A563D" opacity=".25">
+    <circle cx="121" cy="105" r="3"/><circle cx="139" cy="117" r="2"/><circle cx="112" cy="130" r="2"/>
+    <circle cx="479" cy="795" r="3"/><circle cx="461" cy="783" r="2"/><circle cx="488" cy="770" r="2"/>
+  </g>
+</svg>

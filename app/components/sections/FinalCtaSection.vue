@@ -26,7 +26,7 @@
           </p>
           <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <NuxtLink
-              to="/#template"
+              to="/katalog"
               class="inline-flex w-full items-center justify-center rounded-full bg-brand px-8 py-3.5 text-[15px] font-bold text-white shadow-xl shadow-brand/30 transition hover:bg-brand-deep sm:w-auto"
             >
               Lihat Template

@@ -1,6 +1,8 @@
 import type { Component } from 'vue'
 import type { TemplateComponentName } from '~/types/invitation'
 import AureliaTemplate from './AureliaTemplate.vue'
+import FlorenaTemplate from './FlorenaTemplate.vue'
+import AmaliaTemplate from './AmaliaTemplate.vue'
 
 /**
  * Registry template — static import (bukan dynamic import) agar
@@ -11,6 +13,8 @@ import AureliaTemplate from './AureliaTemplate.vue'
  */
 export const templateRegistry: Record<TemplateComponentName, Component> = {
   aurelia: AureliaTemplate,
+  florena: FlorenaTemplate,
+  amalia: AmaliaTemplate,
 }
 
 export function resolveTemplateComponent(name: string): Component | undefined {

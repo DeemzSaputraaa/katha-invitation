@@ -8,6 +8,8 @@
 
 export interface CouplePerson {
   name: string
+  /** Nama panggilan untuk cover atau monogram; default memakai nama lengkap. */
+  shortName?: string
   parents: string
   /** Foto portrait mempelai (opsional). */
   photo?: string
@@ -66,6 +68,8 @@ export interface InvitationData {
   closingImage?: string
   /** URL musik latar undangan (opsional, diputar loop setelah dibuka). */
   musicUrl?: string
+  /** Pilihan lagu opsional untuk template yang menyediakan pemilih musik. */
+  musicTracks?: { title: string; artist?: string; src: string }[]
   /** Label tanggal tampil, mis. "Sabtu, 24 Oktober 2026" */
   dateLabel: string
   shortDateLabel: string
@@ -106,7 +110,7 @@ export interface InvitationSectionProps {
 }
 
 /** Nama komponen template — key registry. Tambah slug baru saat template baru dibuat. */
-export type TemplateComponentName = 'aurelia'
+export type TemplateComponentName = 'aurelia' | 'florena' | 'amalia'
 
 /**
  * Satu undangan customer = TEMPLATE (desain) + DATA (konten).
@@ -136,4 +140,8 @@ export interface CatalogTemplate {
   description: string
   previewImage: string
   component: TemplateComponentName
+  /** true = hanya portofolio/katalog, tidak bisa dipesan/dipakai ulang. */
+  portfolioOnly?: boolean
+  /** Link website asli untuk portofolio (opsional). */
+  externalUrl?: string
 }

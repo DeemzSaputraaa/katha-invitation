@@ -42,7 +42,7 @@
 
       <div class="hidden lg:block">
         <NuxtLink
-          to="/#template"
+          to="/katalog"
           class="inline-flex items-center rounded-full bg-brand px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-brand/25 transition hover:bg-brand-deep"
         >
           Lihat Template
@@ -84,7 +84,7 @@
           </li>
         </ul>
         <NuxtLink
-          to="/#template"
+          to="/katalog"
           class="mt-3 flex items-center justify-center rounded-full bg-brand px-5 py-3.5 text-[15px] font-bold text-white"
           @click="open = false"
         >
@@ -97,7 +97,7 @@
 
 <script setup lang="ts">
 const links = [
-  { label: 'Template', href: '/#template' },
+  { label: 'Template', href: '/katalog' },
   { label: 'Fitur', href: '/#fitur' },
   { label: 'Cara Pesan', href: '/#cara-pesan' },
   { label: 'Harga', href: '/#harga' },
